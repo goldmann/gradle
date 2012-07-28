@@ -11,7 +11,7 @@ configurations {
 }
 
 sourceSets.main {
-    compileClasspath = configurations.provided
+//    compileClasspath = configurations.provided
 }
 
 plugins.withType(IdeaPlugin) {
