@@ -47,8 +47,16 @@ public class DefaultClassPathProvider implements ClassPathProvider {
             classpath = classpath.plus(moduleRegistry.getExternalModule("ant-launcher").getClasspath());
             return classpath;
         }
-        if (name.equals("GROOVY")) {
-            return moduleRegistry.getExternalModule("groovy-all").getClasspath();
+        if (name.equals("GROOVY") || name.equals("LOCAL_GROOVY")) {
+            ClassPath classpath = new DefaultClassPath();
+            classpath = classpath.plus(moduleRegistry.getExternalModule("groovy-all").getClasspath());
+
+            if (name.equals("LOCAL_GROOVY"))
+                classpath = classpath.plus(moduleRegistry.getExternalModule("antlr").getClasspath());
+
+            classpath = classpath.plus(moduleRegistry.getExternalModule("asm-all").getClasspath());
+            classpath = classpath.plus(moduleRegistry.getExternalModule("commons-cli").getClasspath());
+            return classpath;
         }
 
         return null;
