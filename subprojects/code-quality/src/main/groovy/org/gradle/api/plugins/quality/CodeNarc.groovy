@@ -21,6 +21,7 @@ package org.gradle.api.plugins.quality
 import org.gradle.api.GradleException
 import org.gradle.api.file.FileCollection
 import org.gradle.api.internal.Instantiator
+import org.gradle.api.internal.ClassPathRegistry
 import org.gradle.api.internal.project.IsolatedAntBuilder
 import org.gradle.api.logging.LogLevel
 import org.gradle.api.plugins.quality.internal.CodeNarcReportsImpl
@@ -99,7 +100,7 @@ class CodeNarc extends SourceTask implements VerificationTask, Reporting<CodeNar
     void run() {
         logging.captureStandardOutput(LogLevel.INFO)
         def antBuilder = services.get(IsolatedAntBuilder)
-        antBuilder.withClasspath(getCodenarcClasspath()).execute {
+        antBuilder.withGroovy(services.get(ClassPathRegistry).getClassPath("LOCAL_GROOVY").asFiles).withClasspath(getCodenarcClasspath()).execute {
             ant.taskdef(name: 'codenarc', classname: 'org.codenarc.ant.CodeNarcTask')
             try {
                 ant.codenarc(ruleSetFiles: "file:${getConfigFile()}", maxPriority1Violations: 0, maxPriority2Violations: 0, maxPriority3Violations: 0) {

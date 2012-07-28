@@ -55,6 +55,7 @@ class CodeNarcPlugin extends AbstractCodeQualityPlugin<CodeNarc> {
                 def config = project.configurations['codenarc']
                 if (config.dependencies.empty) {
                     project.dependencies {
+                        codenarc "antlr:antlr:2.7.7"
                         codenarc "org.codenarc:CodeNarc:$extension.toolVersion"
                     }
                 }

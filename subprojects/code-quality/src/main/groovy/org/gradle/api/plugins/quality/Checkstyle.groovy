@@ -18,6 +18,7 @@ package org.gradle.api.plugins.quality
 import org.gradle.api.GradleException
 import org.gradle.api.file.FileCollection
 import org.gradle.api.internal.Instantiator
+import org.gradle.api.internal.ClassPathRegistry
 import org.gradle.api.internal.project.IsolatedAntBuilder
 import org.gradle.api.plugins.quality.internal.CheckstyleReportsImpl
 import org.gradle.api.reporting.Reporting
@@ -141,7 +142,7 @@ class Checkstyle extends SourceTask implements VerificationTask, Reporting<Check
     public void run() {
         def propertyName = "org.gradle.checkstyle.violations"
         def antBuilder = services.get(IsolatedAntBuilder)
-        antBuilder.withClasspath(getCheckstyleClasspath()).execute {
+        antBuilder.withGroovy(services.get(ClassPathRegistry).getClassPath("GROOVY").asFiles).withClasspath(getCheckstyleClasspath()).execute {
             ant.taskdef(name: 'checkstyle', classname: 'com.puppycrawl.tools.checkstyle.CheckStyleTask')
 
             ant.checkstyle(config: getConfigFile(), failOnViolation: false, failureProperty: propertyName) {
