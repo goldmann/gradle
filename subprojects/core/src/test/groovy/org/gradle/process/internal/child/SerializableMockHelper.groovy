@@ -18,8 +18,8 @@
 
 package org.gradle.process.internal.child
 
-import groovyjarjarasm.asm.ClassVisitor
-import groovyjarjarasm.asm.ClassWriter
+import org.objectweb.asm.ClassVisitor
+import org.objectweb.asm.Writer
 import java.util.concurrent.atomic.AtomicInteger
 import org.codehaus.groovy.ast.ClassNode
 import org.codehaus.groovy.control.CompilationUnit
