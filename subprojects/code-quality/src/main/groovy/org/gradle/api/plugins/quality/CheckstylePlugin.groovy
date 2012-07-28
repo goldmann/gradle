@@ -50,7 +50,10 @@ class CheckstylePlugin extends AbstractCodeQualityPlugin<Checkstyle> {
                 def config = project.configurations['checkstyle']
                 if (config.dependencies.empty) {
                     project.dependencies {
+                        checkstyle "antlr:antlr:2.7.7"
                         checkstyle "com.puppycrawl.tools:checkstyle:$extension.toolVersion"
+//                        checkstyle "com.google.guava:guava:11.0.1"
+//                        checkstyle "commons-beanutils:commons-beanutils:1.8.3"
                     }
                 }
                 config
