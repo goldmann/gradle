@@ -38,7 +38,7 @@ dependencies {
     compile libraries.slf4j_api
     compile 'org.testng:testng:6.3.1'
 
-    provided files(Jvm.current().toolsJar) // for SunJavaCompiler
+    compile files(Jvm.current().toolsJar) // for SunJavaCompiler
 
     runtime libraries.commons_cli
 

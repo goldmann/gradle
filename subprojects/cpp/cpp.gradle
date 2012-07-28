@@ -19,7 +19,7 @@ dependencies {
     compile project(':core')
     compile project(":plugins")
     compile project(":ide")
-    integTestRuntime project(":maven")
+//    integTestRuntime project(":maven")
 }
 
 useTestFixtures()
