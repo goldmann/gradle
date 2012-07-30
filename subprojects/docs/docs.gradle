@@ -39,7 +39,7 @@ dependencies {
     }
     userGuideTask 'xslthl:xslthl:2.0.1@jar'
 
-    userGuideStyleSheets 'docbook:docbook-xsl:1.75.2@zip'
+//    userGuideStyleSheets 'docbook:docbook-xsl:1.75.2@zip'
 }
 
 ext {
@@ -105,10 +105,10 @@ task userguideStyleSheets(type: Copy) {
     from(cssSrcDir) {
         include '*.css'
     }
-    from(zipTree(configurations.userGuideStyleSheets.singleFile)) {
-        // Remove the prefix
-        eachFile { fcd -> fcd.path = fcd.path.replaceFirst('^docbook-xsl-[0-9\\.]+/', '') }
-    }
+//    from(zipTree(configurations.userGuideStyleSheets.singleFile)) {
+//        // Remove the prefix
+//        eachFile { fcd -> fcd.path = fcd.path.replaceFirst('^docbook-xsl-[0-9\\.]+/', '') }
+//    }
 }
 
 task samplesDocbook(type: AssembleSamplesDocTask) {
