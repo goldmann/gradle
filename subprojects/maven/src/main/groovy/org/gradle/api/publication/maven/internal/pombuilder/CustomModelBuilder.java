@@ -23,16 +23,20 @@ import groovy.util.FactoryBuilderSupport;
 import org.apache.maven.model.Model;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
 import org.slf4j.LoggerFactory;
+/*
 import org.sonatype.maven.polyglot.execute.ExecuteManager;
 import org.sonatype.maven.polyglot.execute.ExecuteManagerImpl;
 import org.sonatype.maven.polyglot.groovy.builder.ModelBuilder;
+*/
 
 /**
 * This is a slightly modified version as shipped with polyglot Maven.
 */
-public class CustomModelBuilder extends ModelBuilder {
+//public class CustomModelBuilder extends ModelBuilder {
+public class CustomModelBuilder {
 
     public CustomModelBuilder(Model model) {
+       /*
         ExecuteManager executeManager = new ExecuteManagerImpl();
         setProp(executeManager.getClass(), executeManager, "log",
                 new PlexusLoggerAdapter(LoggerFactory.getLogger(ExecuteManagerImpl.class)));
@@ -48,6 +52,8 @@ public class CustomModelBuilder extends ModelBuilder {
         factories.remove("project");
         ModelFactory modelFactory = new ModelFactory(model);
         registerFactory(modelFactory.getName(), null, modelFactory);
+       */
+       throw new UnsupportedOperationException("CustomModelBuilder");
     }
 
     public static void setProp(Class c, Object obj, String fieldName, Object value) {

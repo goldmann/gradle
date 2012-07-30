@@ -17,26 +17,30 @@ package org.gradle.api.publication.maven.internal;
 
 import groovy.util.FactoryBuilderSupport;
 import org.apache.maven.model.Model;
-import org.sonatype.maven.polyglot.groovy.builder.factory.NamedFactory;
+//import org.sonatype.maven.polyglot.groovy.builder.factory.NamedFactory;
 
 import java.util.Map;
 
 /**
  * This is a slightly modified version as shipped with polyglot Maven.
  */
-public class ModelFactory extends NamedFactory {
+//public class ModelFactory extends NamedFactory {
+public class ModelFactory {
     private Model model;
 
     public ModelFactory(Model model) {
+        /*
         super("project");
         this.model = model;
+        */
+        throw new UnsupportedOperationException("ModelFactory");
     }
 
     public Object newInstance(FactoryBuilderSupport builder, Object name, Object value, Map attrs) throws InstantiationException, IllegalAccessException {
         return model;
     }
 
-    @Override
+    //@Override
     public void onNodeCompleted(FactoryBuilderSupport builder, Object parent, Object node) {
         Model model = (Model)node;
     }
