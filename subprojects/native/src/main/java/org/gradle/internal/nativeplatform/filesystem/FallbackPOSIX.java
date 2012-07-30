@@ -18,6 +18,7 @@ package org.gradle.internal.nativeplatform.filesystem;
 
 import org.jruby.ext.posix.FileStat;
 import org.jruby.ext.posix.Group;
+import org.jruby.ext.posix.LibC;
 import org.jruby.ext.posix.POSIX;
 import org.jruby.ext.posix.Passwd;
 
@@ -27,6 +28,7 @@ import java.io.IOException;
 public class FallbackPOSIX implements POSIX {
 
     static final int ENOTSUP = 1;
+    private POSIX delegate;
 
     public int chmod(String filename, int mode) {
         return 0;
@@ -222,5 +224,45 @@ public class FallbackPOSIX implements POSIX {
 
     public void errno(int value) {
         throw new UnsupportedOperationException("This operation is not supported.");
+    }
+
+    public LibC libc() {
+        return delegate.libc();
+    }
+
+    public boolean isNative() {
+        return delegate.isNative();
+    }
+
+    public String getenv(String name) {
+        return delegate.getenv(name);
+    }
+
+    public int setenv(String name, String value, int i) {
+        return delegate.setenv(name, value, i);
+    }
+
+    public int unsetenv(String name) {
+        return delegate.unsetenv(name);
+    }
+
+    public int exec(String cmd, String... args) {
+        return delegate.exec(cmd, args);
+    }
+
+    public int exec(String cmd, String[] args, String[] env) {
+        return delegate.exec(cmd, args, env);
+    }
+
+    public int execv(String cmd, String[] args) {
+        return delegate.execv(cmd, args);
+    }
+
+    public int execve(String cmd, String[] args, String[] env) {
+        return delegate.execve(cmd, args, env);
+    }
+
+    public FileStat allocateStat() {
+        return delegate.allocateStat();
     }
 }

@@ -16,6 +16,8 @@
 
 package org.gradle.internal.nativeplatform.filesystem;
 
+import com.kenai.constantine.platform.Errno;
+
 import org.jruby.ext.posix.*;
 
 import java.io.File;
@@ -32,7 +34,8 @@ public class PosixUtil {
     private static class FallbackAwarePosixFactory{
         public static POSIX getPOSIX() {
             POSIX posix = POSIXFactory.getPOSIX(new POSIXHandlerImpl(), true);
-            if(posix instanceof JavaPOSIX || posix instanceof WindowsPOSIX){
+            String name = posix.getClass().getSimpleName();
+            if ("JavaPOSIX".equals(name) || "WindowsPOSIX".equals(name)) {
                 return new FallbackPOSIX();
             }
             return posix;
@@ -40,7 +43,7 @@ public class PosixUtil {
     }
 
     private static class POSIXHandlerImpl implements POSIXHandler {
-        public void error(POSIX.ERRORS error, String message) {
+        public void error(Errno error, String message) {
             throw new UnsupportedOperationException(error + " - " + message);
         }
 
