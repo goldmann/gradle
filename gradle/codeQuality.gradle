@@ -1,5 +1,5 @@
 apply plugin: 'checkstyle'
-apply plugin: 'codenarc'
+//apply plugin: 'codenarc'
 
 def configDir = new File(buildscript.sourceFile.parentFile.parentFile, 'config')
 
@@ -10,9 +10,9 @@ checkstyle {
     configProperties.checkstyleConfigDir = checkstyleConfigDir
 }
 
-codenarc {
-    configFile = new File(configDir, "codenarc.xml")
-}
+//codenarc {
+//    configFile = new File(configDir, "codenarc.xml")
+//}
 
 plugins.withType(GroovyBasePlugin) {
     sourceSets.all { sourceSet ->
