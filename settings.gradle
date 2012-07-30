@@ -40,7 +40,7 @@ include 'ear'
 include 'native'
 include 'internalTesting'
 include 'internalIntegTesting'
-include 'website'
+//include 'website'
 include 'performance'
 
 rootProject.name = 'gradle'
