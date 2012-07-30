@@ -36,7 +36,7 @@ public class DefaultTestReport implements TestReporter {
     public DefaultTestReport() {
         htmlRenderer.requireResource(getClass().getResource("/org/gradle/reporting/report.js"));
         htmlRenderer.requireResource(getClass().getResource("/org/gradle/reporting/base-style.css"));
-        htmlRenderer.requireResource(getClass().getResource("/org/gradle/reporting/css3-pie-1.0beta3.htc"));
+       // htmlRenderer.requireResource(getClass().getResource("/org/gradle/reporting/css3-pie-1.0beta3.htc"));
         htmlRenderer.requireResource(getClass().getResource("style.css"));
     }
 
