@@ -54,7 +54,8 @@ dependencies {
 
     integTestCompile project(":internalIntegTesting")
 
-    reports 'css3-pie:css3-pie:1.0beta3'
+// Not available in Fedora
+//    reports 'css3-pie:css3-pie:1.0beta3'
 }
 
 test {

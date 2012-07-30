@@ -11,6 +11,8 @@ dependencies {
     compile libraries.ivy
     compile libraries.slf4j_api
     compile libraries.maven_ant_tasks
+    // This is unbundled from  maven-ant-tasks
+    compile "org.codehaus.plexus:plexus/container-default:1.0"
 
     testCompile libraries.junit
 }

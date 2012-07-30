@@ -257,6 +257,12 @@ public class DefaultModuleRegistry implements ModuleRegistry, GradleDistribution
                 return jarFile;
             }
         }
+        // Last chance, look for libary in system-wide java directory
+        jarFile = new File("/usr/share/java/", name);
+
+        if (jarFile.isFile()) {
+            return jarFile;
+        }
         throw new IllegalArgumentException(String.format("Cannot find JAR '%s' required by module '%s' using classpath or distribution directory '%s'", name, module, distDir));
     }
 

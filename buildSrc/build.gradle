@@ -21,8 +21,10 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 
 repositories {
-    maven { url 'http://repo.gradle.org/gradle/libs' }
-    mavenCentral()
+     ivy {
+         artifactPattern "/usr/share/java/[module]-[revision].[ext]"
+         artifactPattern "/usr/share/java/[module].[ext]"
+     }
 }
 
 dependencies {
