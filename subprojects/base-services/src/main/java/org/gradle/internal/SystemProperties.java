@@ -35,7 +35,7 @@ public class SystemProperties {
     }
 
     public static String getUserHome() {
-        return System.getProperty("user.home");
+        return System.getenv("user.home");
     }
 
     public static String getJavaVersion() {
