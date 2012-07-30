@@ -15,79 +15,32 @@
  */
 package org.gradle.api.internal.artifacts.mvnsettings;
 
-import org.apache.maven.settings.DefaultMavenSettingsBuilder;
-import org.apache.maven.settings.MavenSettingsBuilder;
-import org.apache.maven.settings.Settings;
-import org.gradle.api.internal.artifacts.PlexusLoggerAdapter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author Steve Ebersole
  */
 public class DefaultLocalMavenRepositoryLocator implements LocalMavenRepositoryLocator {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultLocalMavenRepositoryLocator.class);
-    private static final Pattern PLACEHOLDER_PATTERN = Pattern.compile("\\$\\{([^\\}]*)\\}");
-
-    private final MavenFileLocations mavenFileLocations;
-    private final Map<String, String> systemProperties;
-    private final Map<String, String> environmentVariables;
+    private static final String SETTINGS_LOCATION_OVERRIDE = "maven.settings";
 
     public DefaultLocalMavenRepositoryLocator(MavenFileLocations mavenFileLocations, Map<String, String> systemProperties, Map<String, String> environmentVariables) {
-        this.mavenFileLocations = mavenFileLocations;
-        this.systemProperties = systemProperties;
-        this.environmentVariables = environmentVariables;
     }
 
     public File getLocalMavenRepository() {
-        Settings settings = buildSettings();
-        String repoPath = settings.getLocalRepository().trim();
-        return new File(resolvePlaceholders(repoPath));
+        return determineSettingsFileLocation();
     }
 
-    private String resolvePlaceholders(String value) {
-        StringBuffer result = new StringBuffer();
-        Matcher matcher = PLACEHOLDER_PATTERN.matcher(value);
-
-        while (matcher.find()) {
-            String placeholder = matcher.group(1);
-            String replacement = placeholder.startsWith("env.") ? environmentVariables.get(placeholder.substring(4)) : systemProperties.get(placeholder);
-            if (replacement == null) {
-                throw new CannotLocateLocalMavenRepositoryException(String.format("Cannot resolve placeholder '%s' in value '%s'", placeholder, value));
-            }
-            matcher.appendReplacement(result, Matcher.quoteReplacement(replacement));
-        }
-        matcher.appendTail(result);
-
-        return result.toString();
+    private static String normalizePath(String path) {
+        if ( path.startsWith( "~" ) ) {
+            path = System.getProperty( "user.home" ) + path.substring( 1 );
+         }
+        return path;
     }
 
-    private Settings buildSettings() {
-        try {
-            return createSettingsBuilder().buildSettings();
-        } catch (Exception e) {
-            throw new CannotLocateLocalMavenRepositoryException(e);
-        }
-    }
-
-    private MavenSettingsBuilder createSettingsBuilder() throws Exception {
-        DefaultMavenSettingsBuilder builder = new DefaultMavenSettingsBuilder();
-        builder.enableLogging(new PlexusLoggerAdapter(LOGGER));
-
-        Field userSettingsFileField = DefaultMavenSettingsBuilder.class.getDeclaredField("userSettingsFile");
-        userSettingsFileField.setAccessible(true);
-        userSettingsFileField.set(builder, mavenFileLocations.getUserSettingsFile());
-
-        Field globalSettingsFileField = DefaultMavenSettingsBuilder.class.getDeclaredField("globalSettingsFile");
-        globalSettingsFileField.setAccessible(true);
-        globalSettingsFileField.set(builder, mavenFileLocations.getGlobalSettingsFile());
-
-        return builder;
+    private File determineSettingsFileLocation() {
+        final String defaultLocation = "~/.m2/settings.xml";
+        final String location = System.getProperty( SETTINGS_LOCATION_OVERRIDE, defaultLocation );
+        return new File( normalizePath( location ) );
     }
 }

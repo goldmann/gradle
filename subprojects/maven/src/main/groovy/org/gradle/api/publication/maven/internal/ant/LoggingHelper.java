@@ -17,7 +17,7 @@ package org.gradle.api.publication.maven.internal.ant;
 
 import org.apache.maven.artifact.ant.AntDownloadMonitor;
 import org.apache.maven.artifact.manager.DefaultWagonManager;
-import org.apache.maven.artifact.manager.WagonManager;
+import org.apache.maven.artifact.handler.ArtifactHandler;
 import org.apache.tools.ant.Project;
 import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
@@ -30,7 +30,7 @@ import java.lang.reflect.Field;
 public class LoggingHelper {
     public static void injectLogger(PlexusContainer container, Project project) {
         try {
-            WagonManager wagonManager = (WagonManager) container.lookup(WagonManager.ROLE);
+            ArtifactHandler wagonManager = (ArtifactHandler) container.lookup(ArtifactHandler.ROLE);
             Field field = DefaultWagonManager.class.getDeclaredField("downloadMonitor");
             field.setAccessible(true);
             AntDownloadMonitor antDownloadMonitor = (AntDownloadMonitor) field.get(wagonManager);
