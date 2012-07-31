@@ -45,31 +45,37 @@ public class JnaBootPathConfigurer {
     }
 
     public void configure() throws NativeIntegrationUnavailableException {
-        File tmpDir = new File(storageDir, "jna");
-        tmpDir.mkdirs();
-        String jnaLibName = OperatingSystem.current().isMacOsX() ? "libjnidispatch.jnilib" : System.mapLibraryName("jnidispatch");
-        File libFile = new File(tmpDir, jnaLibName);
-        if (!libFile.exists()) {
-            String resourceName = "/com/sun/jna/" + OperatingSystem.current().getNativePrefix() + "/" + jnaLibName;
-            try {
-                InputStream lib = getClass().getResourceAsStream(resourceName);
-                if (lib == null) {
-                    throw new NativeIntegrationUnavailableException(String.format("Could not locate JNA native library resource '%s'.", resourceName));
-                }
-                try {
-                    FileOutputStream outputStream = new FileOutputStream(libFile);
-                    try {
-                        IOUtils.copy(lib, outputStream);
-                    } finally {
-                        outputStream.close();
-                    }
-                } finally {
-                    lib.close();
-                }
-            } catch (IOException e) {
-                throw new NativeIntegrationException(String.format("Could not create JNA native library '%s'.", libFile), e);
-            }
+//        File tmpDir = new File(storageDir, "jna");
+//        tmpDir.mkdirs();
+//        String jnaLibName = OperatingSystem.current().isMacOsX() ? "libjnidispatch.jnilib" : System.mapLibraryName("jnidispatch");
+//        File libFile = new File(tmpDir, jnaLibName);
+//        if (!libFile.exists()) {
+//            String resourceName = "/com/sun/jna/" + OperatingSystem.current().getNativePrefix() + "/" + jnaLibName;
+//            try {
+//                InputStream lib = getClass().getResourceAsStream(resourceName);
+//                if (lib == null) {
+//                    throw new NativeIntegrationUnavailableException(String.format("Could not locate JNA native library resource '%s'.", resourceName));
+//                }
+//                try {
+//                    FileOutputStream outputStream = new FileOutputStream(libFile);
+//                    try {
+//                        IOUtils.copy(lib, outputStream);
+//                    } finally {
+//                        outputStream.close();
+//                    }
+//                } finally {
+//                    lib.close();
+//                }
+//            } catch (IOException e) {
+//                throw new NativeIntegrationException(String.format("Could not create JNA native library '%s'.", libFile), e);
+//            }
+//        }
+        String bits = "";
+
+        if ("x86_64".equals(System.getProperty("os.arch"))) {
+            bits = "64";
         }
-        System.setProperty("jna.boot.library.path", tmpDir.getAbsolutePath());
+
+        System.setProperty("jna.boot.library.path", "/usr/lib" + bits + "/jna/" + System.mapLibraryName("jnidispatch"));
     }
 }
