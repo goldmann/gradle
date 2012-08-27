@@ -65,7 +65,7 @@ class Version {
         project.gradle.taskGraph.whenReady { graph ->
             type = Type.values().find { it.detector(project) }
             if (type != Type.FINAL) {
-                versionNumber += "-" + buildTime
+                //versionNumber += "-" + buildTime
             }
         }
 
