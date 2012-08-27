@@ -498,7 +498,7 @@ def publishedProjects() {
 }
 
 def pluginProjects() {
-    ['plugins', 'codeQuality', 'jetty', 'antlr', 'wrapper', 'osgi', 'ide', 'announce', 'scala', 'cpp', 'ear'].collect {
+    ['plugins', 'codeQuality', 'antlr', 'wrapper', 'osgi', 'ide', 'announce', 'scala', 'cpp', 'ear'].collect {
         project(it)
     }
 }
